@@ -1,0 +1,55 @@
+﻿<UserControl x:Class="DataTemplates.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
+             xmlns:dataTemplates="clr-namespace:DataTemplates"
+             mc:Ignorable="d"
+    d:DesignHeight="300" d:DesignWidth="400">
+    
+    <UserControl.Resources>
+        <DataTemplate x:Key="NormalRow">
+            <StackPanel>
+                <TextBlock Text="{Binding Price}" />
+            </StackPanel>
+        </DataTemplate>
+        <DataTemplate x:Key="SwapRow">
+            <StackPanel>
+                <TextBlock Text="{Binding Price}" />
+                <TextBlock Text="{Binding Price2Leg}" />
+            </StackPanel>
+        </DataTemplate>
+
+        <dataTemplates:TradePriceCellTemplateSelector x:Key="tradePriceCellTemplateSelector" 
+                                                      NormalTemplate="{StaticResource NormalRow}" 
+                                                      SwapTemplate="{StaticResource SwapRow}"/>
+    </UserControl.Resources>
+
+    <Grid x:Name="LayoutRoot" Background="White">
+        
+        <telerik:RadGridView x:Name="TradeGrid"
+                             RowDetailsVisibilityMode="Visible"
+                             RowIndicatorVisibility="Collapsed"
+                             GroupRenderMode="Flat"
+                             Background="WhiteSmoke"
+                             AutoGenerateColumns="False">
+
+            <telerik:RadGridView.Columns>
+
+                <telerik:GridViewDataColumn Header="DEAL ID / REF NO"
+										                  DataMemberBinding="{Binding Id}"/>
+
+                <telerik:GridViewDataColumn Header="DEAL DATE"
+                                      DataMemberBinding="{Binding DealDate, StringFormat='{}{0:dd.MM.yyyy}'}"/>
+
+                <telerik:GridViewDataColumn Header="TYPE"
+                                      DataMemberBinding="{Binding Type}"/>
+
+                <telerik:GridViewDataColumn Header="PRICE" CellTemplateSelector="{StaticResource tradePriceCellTemplateSelector}" />
+                    
+            </telerik:RadGridView.Columns>
+
+        </telerik:RadGridView>                 
+    </Grid>
+</UserControl>
